@@ -1,5 +1,7 @@
 <template>
-    <p>League Calendar Page!</p>
+    <div class="wrapper">
+        <p>League Calendar Page!</p>
+    </div>
 </template>
 
 <script>

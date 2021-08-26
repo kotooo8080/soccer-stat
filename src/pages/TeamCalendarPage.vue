@@ -1,5 +1,7 @@
 <template>
-    <p>Team Calendar Page!</p>
+    <div class="wrapper">
+        <p>Team Calendar Page!</p>
+    </div>
 </template>
 
 <script>

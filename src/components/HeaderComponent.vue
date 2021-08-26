@@ -1,8 +1,11 @@
 <template>
-  <div class="logo">
-    <h1>{{ msg }}</h1>
+  <div class="header">
+    <div class="logo">
+      <h1>{{ msg }}</h1>
+      <h4>Статистика ведущих европейских турниров по футболу</h4>
+    </div>
+    <menu-items />
   </div>
-  <menu-items />
 </template>
 
 <script>

@@ -1,20 +1,15 @@
 <template>
-    <!-- <ul>
-        <li><router-link to="/">Главная</router-link></li>
-        <li><router-link to="/competitions">Соревнования</router-link></li>
-        <li><router-link to="/teams">Команды</router-link></li>
-        <li><router-link to="/league-calendar">Календарь лиги</router-link></li>
-        <li><router-link to="/team-calendar">Календарь команды</router-link></li>
-    </ul> -->
-
-    <div>
-        <router-link to="/">Главная</router-link> | 
-        <router-link to="/competitions">Соревнования</router-link> |
-        <router-link to="/teams">Команды</router-link> |
-        <router-link to="/league-calendar">Календарь лиги</router-link> |
-        <router-link to="/team-calendar">Календарь команды</router-link>
+    <div class="menu-items">
+        <ul>
+            <li v-for="(item, indx) in items" :key=indx :class="selectedId === indx ? 'highlighted' : null">
+                <router-link 
+                    v-bind:to="item.linkText"
+                    @click="clickedElemHighlight(indx)"
+                >
+                {{ item.itemText }}</router-link>
+            </li>
+        </ul>
     </div>
-    <router-view />
 </template>
 
 <script>
@@ -23,6 +18,20 @@ export default {
 
     data() {
         return {
+            items: [
+                { linkText: '/', itemText: 'Главная' },
+                { linkText: '/competitions', itemText: 'Соревнования' },
+                { linkText: '/teams', itemText: 'Команды' },
+                { linkText: '/league-calendar', itemText: 'Календарь лиги' },
+                { linkText: '/team-calendar', itemText: 'Календарь команды' }
+            ],
+            selectedId: 0
+        }
+    },
+
+    methods: {
+        clickedElemHighlight(id) {
+            this.selectedId = id;
         }
     }
 }

@@ -1,5 +1,6 @@
 <template>
   <header-component msg="Soccer statistics"/>
+  <router-view />
 </template>
 
 <script>
@@ -12,6 +13,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

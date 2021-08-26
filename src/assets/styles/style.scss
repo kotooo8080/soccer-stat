@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@500&family=Poppins:wght@200;300&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    font-family: 'Azeret Mono', monospace;
+    .logo {
+        margin: 20px 0 10px 30px;
+
+        h1, h4 {
+            margin: 0;
+        }
+
+        h4 {
+            width: 300px;
+        }
+    }
+}
+
+.menu-items {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 20px 20px 0;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        list-style-type: none;
+
+        li {
+            margin-right: 10px;
+            padding: 15px 20px;
+        }
+
+        .highlighted {
+            background-color: blue;
+            
+            a {
+                color: white;
+            }
+        }
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+        font-size: large;
+    }
+
+    a:hover {
+        border-bottom: solid 2px blue;
+    }
+}
+
+.description {
+    margin: 10px;
+    font-size: x-large;
+}
+
+.wrapper {
+    font-family: 'Poppins', sans-serif;
+
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+
+    table {
+        border-collapse: collapse;
+        tbody tr:hover {
+            background: #FFE700;
+        }
+        th {
+            padding: 0 15px 10px 0;
+        }
+        td {
+           text-align: center;
+           padding:0 15px 0 0;
+        }
+        img {
+            width: 25px;
+            vertical-align: middle;
+            margin: 5px 0;
+        }
+    }
+}

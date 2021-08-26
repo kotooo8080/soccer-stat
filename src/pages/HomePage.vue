@@ -1,9 +1,15 @@
 <template>
-    <p>Home Page!</p>
+    <div class="wrapper">
+        <p>Home Page!</p>
+    </div>
 </template>
 
 <script>
 export default {
     name: 'HomePage'
 }
-</script>>
+</script>
+
+<style>
+
+</style>

@@ -10,7 +10,7 @@ const routes = [
     {
         path: '/',
         name: 'HomePage',
-        component: HomePage
+        component: HomePage,
     },
     {
         path: '/competitions',

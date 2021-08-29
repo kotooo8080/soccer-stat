@@ -20,12 +20,14 @@ const routes = [
     {
         path: '/league-calendar',
         name: 'LeagueCalendarPage',
-        component: LeagueCalendarPage
+        component: LeagueCalendarPage,
+        props: true,
     },
     {
         path: '/team-calendar',
         name: 'TeamCalendarPage',
-        component: TeamCalendarPage
+        component: TeamCalendarPage,
+        props: true,
     },
     {
         path: '/teams',

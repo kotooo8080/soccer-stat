@@ -1,6 +1,7 @@
 <template>
     <div class="wrapper">
-        <table id="competitionsTbl">
+        <p v-if="compErrorMsg"> {{ compErrorMsg }} </p>
+        <table v-else id="competitionsTbl">
             <caption style="display: none;">Список лиг и соревнований</caption>
             <thead>
                 <tr>
@@ -12,7 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(comp, indx) in competitions" v-bind:key='indx'>
+                <tr v-for="(comp, indx) in competitions" v-bind:key='indx' v-on:click="clickedItem($event)">
                     <td>{{ comp.name }}</td>
                     <td>{{ comp.area.name }}</td>
                     <td>{{ comp.currentSeason ? comp.currentSeason.startDate + '-' + comp.currentSeason.endDate : '-' }}</td>
@@ -33,13 +34,29 @@ export default {
     data() {
         return {
             competitions: [],
+            compErrorMsg: ''
         }
     },
 
     methods: {
         async loadingDataFromAPI() {
-            await loadStatistics(this, 'competitions/', 'competitions');
-            console.log(this.competitions);
+            const result = await loadStatistics('competitions/', 'competitions')
+            if(result) {
+                this.competitions = result;
+            }
+            else {
+                this.compErrorMsg = 'Данные не получены!';
+            }
+        },
+
+        clickedItem: function (event) {
+            if (event) {
+                let elemIndx = event.target.parentNode.rowIndex - 1;
+                console.log(this.competitions);
+                this.clickedElemId = this.competitions[elemIndx].id;
+                console.log(this.competitions[elemIndx].id);
+                this.$router.push({ name: 'LeagueCalendarPage', params: { compId : this.clickedElemId }})
+            }
         }
     },
 

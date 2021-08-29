@@ -1,13 +1,13 @@
 <template>
     <div class="menu-items">
         <ul>
-            <li v-for="(item, indx) in items" :key=indx :class="selectedId === indx ? 'highlighted' : null">
-                <router-link 
-                    v-bind:to="item.linkText"
-                    @click="clickedElemHighlight(indx)"
-                >
-                {{ item.itemText }}</router-link>
-            </li>
+            <router-link
+                v-for="(item, indx) in items" v-bind:key=indx 
+                tag="li"
+                v-bind:to="item.linkText"
+            >
+                {{ item.itemText }}
+            </router-link>
         </ul>
     </div>
 </template>
@@ -28,11 +28,5 @@ export default {
             selectedId: 0
         }
     },
-
-    methods: {
-        clickedElemHighlight(id) {
-            this.selectedId = id;
-        }
-    }
 }
 </script>

@@ -23,9 +23,6 @@ export default {
 
     methods: {
         startSearch() {
-            //if(this.$route.query.id) {
-               // this.searchVal = this.$route.query.id;
-            //}
             if(this.searchVal) {
                 this.$emit('onSearch', this.searchVal );
                 this.emptyStrMsg = '';
@@ -34,8 +31,7 @@ export default {
     },
 
     created() {
-        this.searchVal = this.$route.query.id;
-        this.startSearch();
+        this.searchVal = this.$route.query.search;
     },
 }
 </script>

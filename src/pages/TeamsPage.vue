@@ -1,5 +1,5 @@
 <template>
-    <search-field @onSearch="findTeam"/>
+    <search-form @onSearch="findTeam"/>
     <div class="wrapper">
         <p v-if="teamsErrorMsg"> {{ teamsErrorMsg }} </p>
         <table v-else id="teamsTbl">
@@ -26,13 +26,13 @@
 
 <script>
 import { loadStatistics } from '../api'
-import SearchField from '../components/SearchField.vue';
+import SearchForm from '../components/SearchForm.vue';
 
 export default {
     name: 'TeamsPage',
 
     components: {
-        SearchField
+        SearchForm
     },
 
     data() {
@@ -41,7 +41,7 @@ export default {
             showTeams: [],
             clickedElemId: '',
             teamsErrorMsg: '',
-            searchVal: ''
+            //searchVal: ''
         }
     },
 
@@ -59,9 +59,7 @@ export default {
 
         findTeam(teamSearchName) {
             this.showTeams = this.teams.filter(team => team.name.toLowerCase().includes(teamSearchName.toLowerCase()));
-            //this.$router.push({ name: 'TeamPage', params: { searchValue : teamSearchName }});
-            // this.$router.replace({ name: 'TeamPage', query: {id:teamSearchName} });
-            this.$router.push({path:'/teams', query:{id: teamSearchName}})
+            this.$router.push({ path: '/teams', query: { search : teamSearchName }});
         },
 
         clickedItem: function (elemId) {
@@ -70,13 +68,14 @@ export default {
         }
     },
 
-    created() {
-        this.loadingTeamsFromAPI();
-        //let param = this.$route.query.id;
-        // if(param !== undefined) {
-        //     this.findTeam(param);
-        //     this.searchVal = param;
-        // }
+    async created() {
+        await this.loadingTeamsFromAPI();
+        const { search } = this.$route.query;
+
+        if(search) {
+            this.findTeam(search);
+            //this.searchVal = search
+        }
     },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <search-field @onSearch="findCompetition"/>
+    <search-form @onSearch="findCompetition"/>
     <div class="wrapper">
         <p v-if="compErrorMsg"> {{ compErrorMsg }} </p>
         <table v-else id="competitionsTbl">
@@ -28,20 +28,20 @@
 
 <script>
 import { loadStatistics } from '../api';
-import SearchField from '../components/SearchField.vue';
+import SearchForm from '../components/SearchForm.vue';
 
 export default {
     name: 'CompetitionsPage',
 
     components: {
-        SearchField
+        SearchForm
     },
 
     data() {
         return {
             competitions: [],
             compErrorMsg: '',
-            showCompetitions: []
+            showCompetitions: [],
         }
     },
 
@@ -60,6 +60,7 @@ export default {
 
         findCompetition(compSearchName) {
             this.showCompetitions = this.competitions.filter(comp => comp.name.toLowerCase().includes(compSearchName.toLowerCase()));
+            this.$router.push({ path: '/competitions', query: { search : compSearchName }});
         },
 
 
@@ -69,8 +70,13 @@ export default {
         }
     },
 
-    created() {
-        this.loadingDataFromAPI();
+    async created() {
+        await this.loadingDataFromAPI();
+        const { search } = this.$route.query;
+
+        if(search) {
+            this.findCompetition(search);
+        }
     }
 }
 </script>

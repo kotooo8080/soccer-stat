@@ -13,7 +13,7 @@ const routes = [
         component: HomePage,
     },
     {
-        path: '/competitions',
+        path: '/competitions/:search?',
         name: 'CompetitionsPage',
         component: CompetitionsPage
     },
@@ -30,7 +30,7 @@ const routes = [
         props: true,
     },
     {
-        path: '/teams/:id?',
+        path: '/teams/:search?',
         name: 'TeamsPage',
         component: TeamsPage
     },

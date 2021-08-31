@@ -1,4 +1,5 @@
 <template>
+    <search-field @onSearch="findCompetition"/>
     <div class="wrapper">
         <p v-if="compErrorMsg"> {{ compErrorMsg }} </p>
         <table v-else id="competitionsTbl">
@@ -13,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(comp, indx) in competitions" v-bind:key='indx' v-on:click="clickedItem($event)">
+                <tr v-for="(comp, indx) in showCompetitions" v-bind:key='indx' v-on:click="clickedItem(comp.id)">
                     <td>{{ comp.name }}</td>
                     <td>{{ comp.area.name }}</td>
                     <td>{{ comp.currentSeason ? comp.currentSeason.startDate + '-' + comp.currentSeason.endDate : '-' }}</td>
@@ -27,36 +28,44 @@
 
 <script>
 import { loadStatistics } from '../api';
+import SearchField from '../components/SearchField.vue';
 
 export default {
     name: 'CompetitionsPage',
 
+    components: {
+        SearchField
+    },
+
     data() {
         return {
             competitions: [],
-            compErrorMsg: ''
+            compErrorMsg: '',
+            showCompetitions: []
         }
     },
 
     methods: {
         async loadingDataFromAPI() {
+            this.showCompetitions = null;
             const result = await loadStatistics('competitions/', 'competitions')
             if(result) {
                 this.competitions = result;
+                this.showCompetitions = this.competitions;
             }
             else {
-                this.compErrorMsg = 'Данные не получены!';
+                this.compErrorMsg = 'Список лиг/соревнований не был получен!';
             }
         },
 
-        clickedItem: function (event) {
-            if (event) {
-                let elemIndx = event.target.parentNode.rowIndex - 1;
-                console.log(this.competitions);
-                this.clickedElemId = this.competitions[elemIndx].id;
-                console.log(this.competitions[elemIndx].id);
-                this.$router.push({ name: 'LeagueCalendarPage', params: { compId : this.clickedElemId }})
-            }
+        findCompetition(compSearchName) {
+            this.showCompetitions = this.competitions.filter(comp => comp.name.toLowerCase().includes(compSearchName.toLowerCase()));
+        },
+
+
+        clickedItem: function (elemId) {
+            this.clickedElemId = elemId;
+            this.$router.push({ name: 'LeagueCalendarPage', params: { compId : this.clickedElemId }});
         }
     },
 

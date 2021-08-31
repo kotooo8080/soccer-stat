@@ -41,7 +41,7 @@ export default {
                 this.leagueMatches = result;
             }
             else {
-                this.leagueCalErrorMsg = 'Данные об этой лиге/соревновании не были получены!';
+                this.leagueCalErrorMsg = 'Данные о лиге/соревновании не были получены!';
             }
         }
     },

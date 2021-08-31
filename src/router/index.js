@@ -30,7 +30,7 @@ const routes = [
         props: true,
     },
     {
-        path: '/teams',
+        path: '/teams/:id?',
         name: 'TeamsPage',
         component: TeamsPage
     },

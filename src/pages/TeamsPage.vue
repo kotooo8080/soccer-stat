@@ -1,11 +1,5 @@
 <template>
-    <div class="search-field">
-        <input
-            v-model="searchTeam"
-            placeholder="Введите название команды"
-            type="text"
-        >
-    </div>
+    <search-field @onSearch="findTeam"/>
     <div class="wrapper">
         <p v-if="teamsErrorMsg"> {{ teamsErrorMsg }} </p>
         <table v-else id="teamsTbl">
@@ -19,7 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(team, indx) in showTeams" v-bind:key='indx' v-on:click="clickedItem($event)">
+                <tr v-for="(team, indx) in showTeams" v-bind:key='indx' v-on:click="clickedItem(team.id)">
                     <td>{{ team.name }}</td>
                     <td>{{ team.area.name }}</td>
                     <td><img v-bind:src=team.crestUrl alt='team-logo'> </td>
@@ -32,18 +26,22 @@
 
 <script>
 import { loadStatistics } from '../api'
+import SearchField from '../components/SearchField.vue';
 
 export default {
     name: 'TeamsPage',
 
+    components: {
+        SearchField
+    },
+
     data() {
         return {
             teams: [],
-            searchTeam: '',
-            foundTeams: [],
             showTeams: [],
             clickedElemId: '',
-            teamsErrorMsg: ''
+            teamsErrorMsg: '',
+            searchVal: ''
         }
     },
 
@@ -55,32 +53,30 @@ export default {
                 this.showTeams = this.teams;
             }
             else {
-                this.teamsErrorMsg = 'Данные не получены!';
+                this.teamsErrorMsg = 'Список команд не был получен!';
             }
-            //this.showTeams = this.teams;
         },
 
-        findTeam() {
-            this.showTeams = this.teams.filter(team => team.name.toLowerCase().includes(this.searchTeam.toLowerCase()));
+        findTeam(teamSearchName) {
+            this.showTeams = this.teams.filter(team => team.name.toLowerCase().includes(teamSearchName.toLowerCase()));
+            //this.$router.push({ name: 'TeamPage', params: { searchValue : teamSearchName }});
+            // this.$router.replace({ name: 'TeamPage', query: {id:teamSearchName} });
+            this.$router.push({path:'/teams', query:{id: teamSearchName}})
         },
 
-        clickedItem: function (event) {
-            if (event) {
-                let elemIndx = event.target.parentNode.rowIndex - 1;
-                this.clickedElemId = this.teams[elemIndx].id;
-                this.$router.push({ name: 'TeamCalendarPage', params: { teamId : this.clickedElemId }})
-            }
+        clickedItem: function (elemId) {
+            this.clickedElemId = elemId;
+            this.$router.push({ name: 'TeamCalendarPage', params: { teamId : this.clickedElemId }});
         }
     },
 
     created() {
         this.loadingTeamsFromAPI();
+        //let param = this.$route.query.id;
+        // if(param !== undefined) {
+        //     this.findTeam(param);
+        //     this.searchVal = param;
+        // }
     },
-
-    watch: {
-        searchTeam: function() {
-            this.findTeam();
-        }
-    }
 }
 </script>

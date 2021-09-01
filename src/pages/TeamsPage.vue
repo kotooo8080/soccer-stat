@@ -13,7 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(team, indx) in showTeams" v-bind:key='indx' v-on:click="clickedItem(team.id)">
+                <tr v-for="(team, indx) in showTeams" v-bind:key='indx' v-on:click="clickedItem(team.id, team.name)">
                     <td>{{ team.name }}</td>
                     <td>{{ team.area.name }}</td>
                     <td><img v-bind:src=team.crestUrl alt='team-logo'> </td>
@@ -59,12 +59,18 @@ export default {
 
         findTeam(teamSearchName) {
             this.showTeams = this.teams.filter(team => team.name.toLowerCase().includes(teamSearchName.toLowerCase()));
-            this.$router.push({ path: '/teams', query: { search : teamSearchName }});
+            if(teamSearchName) {
+                this.$router.push({ path: '/teams', query: { search : teamSearchName }});
+            }
+            else {
+                this.$router.replace({ path: '/teams' });
+            }
         },
 
-        clickedItem: function (elemId) {
+        clickedItem: function (elemId, elemName) {
             this.clickedElemId = elemId;
-            this.$router.push({ name: 'TeamCalendarPage', params: { teamId : this.clickedElemId }});
+            localStorage.setItem('teamId', elemId);
+            this.$router.push({ name: 'TeamCalendarPage', query: { team : elemName } });
         }
     },
 

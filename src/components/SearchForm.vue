@@ -1,18 +1,21 @@
 <template>
-  <div class="search-field">
+  <div class="search-form">
         <input
             v-model="searchVal"
             placeholder="Введите запрос"
             type="text"
         >
-        <button v-on:click="startSearch">Найти</button>
+        <button class="clear-btn" v-on:click="clearSearch"></button>
+        <button class="btn" v-on:click="startSearch">
+           <img src="../assets/img/loupe.png" alt="Найти">
+        </button>
     </div>
 </template>
 
 <script>
 
 export default {
-    name: 'SearchField',
+    name: 'SearchForm',
 
     data() {
         return {
@@ -28,6 +31,11 @@ export default {
                 this.emptyStrMsg = '';
             }
         },
+
+        clearSearch() {
+            this.searchVal = '';
+            this.$emit('onSearch', '' );
+        }
     },
 
     created() {

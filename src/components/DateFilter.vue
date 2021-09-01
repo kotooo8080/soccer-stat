@@ -1,16 +1,18 @@
 <template>
     <div class="date-filter">
-        <p>с: </p>
         <input
             v-model="dateFrom"
-            placeholder="Введите начальную дату"
+            placeholder="yyyy-mm-dd"
         >
-        <p>по: </p>
+        <button class="date-clear-btn btn1" v-on:click="deleteFilterDate(true)"></button>
         <input
             v-model="dateTo"
-            placeholder="Введите конечную дату"
+            placeholder="yyyy-mm-dd"
         >
-        <button v-on:click="enterFilterDate">OK</button>
+        <button class="date-clear-btn btn2" v-on:click="deleteFilterDate(false)"></button>
+        <button v-on:click="enterFilterDate">
+            <img src="../assets/img/filter.png" alt="Отфильтровать">
+        </button>
     </div>
 </template>
 
@@ -28,6 +30,27 @@ export default {
     methods: {
         enterFilterDate() {
             this.$emit('onDateFilter', this.dateFrom,  this.dateTo);
+        },
+
+        deleteFilterDate(btn) {
+            if(btn) {
+                this.dateFrom = '';
+                this.$emit('onDateFilter', '', this.dateTo );
+            }
+            else {
+                this.dateTo = '';
+                this.$emit('onDateFilter', this.dateFrom, '' );
+            }
+        }
+    },
+
+    created() {
+        const { dateFrom } = this.$route.query;
+        const { dateTo } = this.$route.query;
+        if(dateFrom && dateTo) {
+            this.dateFrom = dateFrom;
+            this.dateTo = dateTo;
+            this.enterFilterDate()
         }
     }
 }

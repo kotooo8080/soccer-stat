@@ -18,13 +18,13 @@ const routes = [
         component: CompetitionsPage
     },
     {
-        path: '/league-calendar',
+        path: '/league-calendar/:competition?:dateFrom?:dateTo?',
         name: 'LeagueCalendarPage',
         component: LeagueCalendarPage,
         props: true,
     },
     {
-        path: '/team-calendar',
+        path: '/team-calendar/:team?:dateFrom?:dateTo?',
         name: 'TeamCalendarPage',
         component: TeamCalendarPage,
         props: true,

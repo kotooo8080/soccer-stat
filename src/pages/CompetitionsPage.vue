@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(comp, indx) in showCompetitions" v-bind:key='indx' v-on:click="clickedItem(comp.id)">
+                <tr v-for="(comp, indx) in showCompetitions" v-bind:key='indx' v-on:click="clickedItem(comp.id, comp.name)">
                     <td>{{ comp.name }}</td>
                     <td>{{ comp.area.name }}</td>
                     <td>{{ comp.currentSeason ? comp.currentSeason.startDate + '-' + comp.currentSeason.endDate : '-' }}</td>
@@ -60,13 +60,19 @@ export default {
 
         findCompetition(compSearchName) {
             this.showCompetitions = this.competitions.filter(comp => comp.name.toLowerCase().includes(compSearchName.toLowerCase()));
-            this.$router.push({ path: '/competitions', query: { search : compSearchName }});
+            if(compSearchName) {
+                this.$router.push({ path: '/competitions', query: { search : compSearchName }});
+            }
+            else {
+                this.$router.replace({ path: '/competitions' });
+            }
         },
 
 
-        clickedItem: function (elemId) {
+        clickedItem: function (elemId, elemName) {
             this.clickedElemId = elemId;
-            this.$router.push({ name: 'LeagueCalendarPage', params: { compId : this.clickedElemId }});
+            localStorage.setItem('compId', elemId);
+            this.$router.push({ name: 'LeagueCalendarPage', query: { competition : elemName }});
         }
     },
 

@@ -1,5 +1,6 @@
 <template>
     <date-filter @onDateFilter="dateFiltering"/>
+    <p v-if="incorrectDate">Вы ввели не все данные</p>
     <div class="wrapper">
         <p v-if="teamCalErrorMsg"> {{ teamCalErrorMsg }} </p>
         <table v-else id="teamCalendarTbl">
@@ -41,14 +42,17 @@ export default {
         return {
             matches: [],
             teamCalErrorMsg: '',
-            filteredMatches: []
+            filteredMatches: [],
+            incorrectDate: false,
+            teamID: ''
         }
     },
 
     methods: {
         async loadingTeamCalendarFromAPI() {
             this.filteredMatches = null;
-            const result = await loadStatistics(`teams/${this.$route.params.teamId}/matches/`, 'matches');
+            this.teamID = localStorage.getItem('teamId');
+            const result = await loadStatistics(`teams/${this.teamID}/matches/`, 'matches');
             if(result) {
                 this.matches = result;
             }
@@ -58,24 +62,16 @@ export default {
         },
 
         async dateFiltering(startDate, endDate) {
-            // console.log(startDate);
-            // console.log(endDate);
-            //let filterResult = [];
-            if(startDate) {
-                if(endDate) {
-                    this.filteredMatches = await loadStatistics(`teams/${this.$route.params.teamId}/matches?dateFrom=${startDate}&dateTo=${endDate}`, 'matches');
-                }
-                // else {
-                //     this.filteredMatches = await loadStatistics(`teams/${this.$route.params.teamId}/matches?dateFrom=${startDate}&dateTo=${null}`, 'matches');
-                // }
+            let teamName = this.$route.query.team;
+            if(startDate && endDate) {
+                this.filteredMatches = await loadStatistics(`teams/${this.teamID}/matches?dateFrom=${startDate}&dateTo=${endDate}`, 'matches');
+                this.$router.push({ name: 'TeamCalendarPage', query: { team : teamName, dateFrom : startDate, dateTo : endDate }});
+                this.incorrectDate = false;
             }
-            // else if(endDate) {
-            //     this.filteredMatches = await loadStatistics(`teams/${this.$route.params.teamId}/matches?dateFrom=${}&dateTo=${endDate}`, 'matches');
-            // }
-            // else {
-            //     this.teamCalErrorMsg = 'Данные о команде не были получены!';
-            // }
-            //console.log(filterResult);
+            else if(!(startDate || endDate)) {
+                this.$router.push({ name: 'TeamCalendarPage', query: { team : teamName }});
+                this.filteredMatches = null;
+            }
         }
     },
 

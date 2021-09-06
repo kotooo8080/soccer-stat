@@ -1,15 +1,19 @@
 <template>
     <div class="date-filter">
-        <input
-            v-model="dateFrom"
-            placeholder="yyyy-mm-dd"
-        >
-        <button class="date-clear-btn btn1" v-on:click="deleteFilterDate(true)"></button>
-        <input
-            v-model="dateTo"
-            placeholder="yyyy-mm-dd"
-        >
-        <button class="date-clear-btn btn2" v-on:click="deleteFilterDate(false)"></button>
+        <div class="date date-from">
+            <input
+                v-model="dateFrom"
+                placeholder="yyyy-mm-dd"
+            >
+            <button class="date-clear-btn btn1" v-on:click="deleteFilterDate(true)"></button>
+        </div>
+        <div class="date date-to">
+            <input
+                v-model="dateTo"
+                placeholder="yyyy-mm-dd"
+            >
+            <button class="date-clear-btn btn2" v-on:click="deleteFilterDate(false)"></button>
+        </div>
         <button v-on:click="enterFilterDate">
             <img src="../assets/img/filter.png" alt="Отфильтровать">
         </button>
@@ -23,7 +27,7 @@ export default {
     data() {
         return {
             dateFrom: '',
-            dateTo: ''
+            dateTo: '',
         }
     },
 

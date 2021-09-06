@@ -1,4 +1,6 @@
-const API_KEY = '10e9e237b4364e74ac289cae61bbd39e'; 
+//const API_KEY = '10e9e237b4364e74ac289cae61bbd39e'; 
+const API_KEY = process.env.VUE_APP_SOCCERKEY;
+console.log(process.env.VUE_APP_SOCCERKEY);
 
 export const loadStatistics = (UrlPart, whatLoad) => { 
     return fetch('http://api.football-data.org/v2/'+UrlPart, {

@@ -1,12 +1,14 @@
 <template>
   <div class="search-form">
-        <input
-            v-model="searchVal"
-            placeholder="Введите запрос"
-            type="text"
-        >
-        <button class="clear-btn" v-on:click="clearSearch"></button>
-        <button class="btn" v-on:click="startSearch">
+        <div class="search">
+            <input
+                v-model="searchVal"
+                placeholder="Введите запрос"
+                type="text"
+            >
+            <button class="btn3 clear-btn" v-on:click="clearSearch"></button>
+        </div>
+        <button class="btn" type="submit" v-on:click="startSearch" v-on:keyup.enter="startSearch">
            <img src="../assets/img/loupe.png" alt="Найти">
         </button>
     </div>

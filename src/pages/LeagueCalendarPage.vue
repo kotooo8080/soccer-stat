@@ -1,8 +1,8 @@
 <template>
     <date-filter @onDateFilter="dateFiltering"/>
-    <p v-if="incorrectDate">Вы ввели не все данные</p>
+    <p class="error-message" v-if="incorrectDate"> {{ incorrectDate }} </p>
     <div class="wrapper">
-        <p v-if="leagueCalErrorMsg"> {{ leagueCalErrorMsg }} </p>
+        <p class="error-message" v-if="leagueCalErrorMsg"> {{ leagueCalErrorMsg }} </p>
         <table v-else id="leagueCalendarTbl">
             <caption style="display: none;">Календарь лиги</caption>
             <thead>
@@ -14,9 +14,9 @@
             </thead>
             <tbody>
                 <tr v-for="(match, indx) in (!filteredComp ? leagueMatches : filteredComp)" v-bind:key='indx'>
-                    <td>{{ match.homeTeam.name }} - {{ match.awayTeam.name }}</td>
-                    <td>{{ match.utcDate }}</td>
-                    <td>{{ match.status === 'FINISHED' ? match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam : '-' }} </td>
+                    <td><span>Команды</span>{{ match.homeTeam.name }} - {{ match.awayTeam.name }}</td>
+                    <td><span>Дата</span>{{ match.utcDate }}</td>
+                    <td><span>Счет</span>{{ match.status === 'FINISHED' ? match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam : '-' }} </td>
                 </tr>
             </tbody>
         </table>
@@ -40,7 +40,7 @@ export default {
             leagueCalErrorMsg: '',
             filteredComp: [],
             compID: '',
-            incorrectDate: false
+            incorrectDate: ''
         }
     },
 
@@ -49,7 +49,7 @@ export default {
             this.filteredComp = null;
             this.compID = localStorage.getItem('compId');
             const result = await loadStatistics(`competitions/${this.compID}/matches/`, 'matches');
-            if(result) {
+            if(result && result.length) {
                 this.leagueMatches = result;
             }
             else {
@@ -58,13 +58,14 @@ export default {
         },
 
         async dateFiltering(startDate, endDate) {
+            this.incorrectDate = '';
             let compName = this.$route.query.competition;
             if(startDate && endDate) {
                 this.filteredComp = await loadStatistics(`competitions/${this.compID}/matches?dateFrom=${startDate}&dateTo=${endDate}`, 'matches');
                 this.$router.push({ name: 'LeagueCalendarPage', query: { competition : compName, dateFrom : startDate, dateTo : endDate }});
-                this.incorrectDate = false;
             }
-            else if(!(startDate || endDate)) {
+            else {
+                this.incorrectDate = 'Вы ввели не все данные!';
                 this.$router.push({ name: 'LeagueCalendarPage', query: { competition : compName }});
                 this.filteredComp = null;
             }

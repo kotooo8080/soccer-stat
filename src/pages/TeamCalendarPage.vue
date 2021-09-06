@@ -1,8 +1,8 @@
 <template>
     <date-filter @onDateFilter="dateFiltering"/>
-    <p v-if="incorrectDate">Вы ввели не все данные</p>
+    <p class="error-message" v-if="incorrectDate"> {{ incorrectDate }} </p>
     <div class="wrapper">
-        <p v-if="teamCalErrorMsg"> {{ teamCalErrorMsg }} </p>
+        <p class="error-message" v-if="teamCalErrorMsg"> {{ teamCalErrorMsg }} </p>
         <table v-else id="teamCalendarTbl">
             <caption style="display: none;">Календарь команды</caption>
             <thead>
@@ -16,11 +16,11 @@
             </thead>
             <tbody>
                 <tr v-for="(match, indx) in (!filteredMatches ? matches : filteredMatches)" v-bind:key='indx'>
-                    <td>{{ match.competition.name }}</td>
-                    <td>{{ match.competition.area.name }}</td>
-                    <td>{{ match.status }}</td>
-                    <td>{{ match.homeTeam.name }} - {{ match.awayTeam.name }}</td>
-                    <td>{{ match.status === 'FINISHED' ? match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam : '-' }} </td>
+                    <td><span>Название</span>{{ match.competition.name }}</td>
+                    <td><span>Страна</span>{{ match.competition.area.name }}</td>
+                    <td><span>Статус</span>{{ match.status }}</td>
+                    <td><span>Команды</span>{{ match.homeTeam.name }} - {{ match.awayTeam.name }}</td>
+                    <td><span>Счет</span>{{ match.status === 'FINISHED' ? match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam : '-' }} </td>
                 </tr>
             </tbody>
         </table>
@@ -43,7 +43,7 @@ export default {
             matches: [],
             teamCalErrorMsg: '',
             filteredMatches: [],
-            incorrectDate: false,
+            incorrectDate: '',
             teamID: ''
         }
     },
@@ -53,22 +53,24 @@ export default {
             this.filteredMatches = null;
             this.teamID = localStorage.getItem('teamId');
             const result = await loadStatistics(`teams/${this.teamID}/matches/`, 'matches');
-            if(result) {
+            if(result.length) {
                 this.matches = result;
             }
             else {
-                this.teamCalErrorMsg = 'Данные о команде не были получены!';
+                this.teamCalErrorMsg = 'Данные о соревнованиях команды не были получены!';
             }
         },
 
         async dateFiltering(startDate, endDate) {
+            this.incorrectDate = '';
             let teamName = this.$route.query.team;
             if(startDate && endDate) {
                 this.filteredMatches = await loadStatistics(`teams/${this.teamID}/matches?dateFrom=${startDate}&dateTo=${endDate}`, 'matches');
                 this.$router.push({ name: 'TeamCalendarPage', query: { team : teamName, dateFrom : startDate, dateTo : endDate }});
-                this.incorrectDate = false;
+                this.incorrectDate = '';
             }
-            else if(!(startDate || endDate)) {
+            else {
+                this.incorrectDate = 'Вы ввели не все данные!';
                 this.$router.push({ name: 'TeamCalendarPage', query: { team : teamName }});
                 this.filteredMatches = null;
             }

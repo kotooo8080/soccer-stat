@@ -1,7 +1,7 @@
 <template>
     <search-form @onSearch="findTeam"/>
     <div class="wrapper">
-        <p v-if="teamsErrorMsg"> {{ teamsErrorMsg }} </p>
+        <p class="error-message" v-if="teamsErrorMsg"> {{ teamsErrorMsg }} </p>
         <table v-else id="teamsTbl">
             <caption style="display: none;">Список команд</caption>
             <thead>
@@ -14,10 +14,10 @@
             </thead>
             <tbody>
                 <tr v-for="(team, indx) in showTeams" v-bind:key='indx' v-on:click="clickedItem(team.id, team.name)">
-                    <td>{{ team.name }}</td>
-                    <td>{{ team.area.name }}</td>
-                    <td><img v-bind:src=team.crestUrl alt='team-logo'> </td>
-                    <td>{{ team.venue }}</td>
+                    <td><span>Название</span>{{ team.name }}</td>
+                    <td><span>Страна</span>{{ team.area.name }}</td>
+                    <td><span>Логотип</span><img v-bind:src=team.crestUrl alt='team-logo'> </td>
+                    <td><span>Стадион</span>{{ team.venue }}</td>
                 </tr>
             </tbody>
         </table>
@@ -80,7 +80,6 @@ export default {
 
         if(search) {
             this.findTeam(search);
-            //this.searchVal = search
         }
     },
 }

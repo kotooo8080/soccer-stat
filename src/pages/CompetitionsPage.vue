@@ -1,7 +1,7 @@
 <template>
     <search-form @onSearch="findCompetition"/>
     <div class="wrapper">
-        <p v-if="compErrorMsg"> {{ compErrorMsg }} </p>
+        <p class="error-message" v-if="compErrorMsg"> {{ compErrorMsg }} </p>
         <table v-else id="competitionsTbl">
             <caption style="display: none;">Список лиг и соревнований</caption>
             <thead>
@@ -15,11 +15,11 @@
             </thead>
             <tbody>
                 <tr v-for="(comp, indx) in showCompetitions" v-bind:key='indx' v-on:click="clickedItem(comp.id, comp.name)">
-                    <td>{{ comp.name }}</td>
-                    <td>{{ comp.area.name }}</td>
-                    <td>{{ comp.currentSeason ? comp.currentSeason.startDate + '-' + comp.currentSeason.endDate : '-' }}</td>
-                    <td>{{ (!(comp.currentSeason && comp.currentSeason.currentMatchday)) ? '-' : comp.currentSeason.currentMatchday }}</td>
-                    <td>{{ (comp.currentSeason && comp.currentSeason.winner) ? comp.currentSeason.winner.shortName : '-' }}</td>
+                    <td><span>Название</span>{{ comp.name }}</td>
+                    <td><span>Страна</span>{{ comp.area.name }}</td>
+                    <td><span>Дата</span>{{ comp.currentSeason ? comp.currentSeason.startDate + '-' + comp.currentSeason.endDate : '-' }}</td>
+                    <td><span>День соревнования</span>{{ (!(comp.currentSeason && comp.currentSeason.currentMatchday)) ? '-' : comp.currentSeason.currentMatchday }}</td>
+                    <td><span>Победитель</span>{{ (comp.currentSeason && comp.currentSeason.winner) ? comp.currentSeason.winner.shortName : '-' }}</td>
                 </tr>
             </tbody>
         </table>

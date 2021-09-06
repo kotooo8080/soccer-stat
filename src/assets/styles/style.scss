@@ -10,12 +10,11 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 30px;
     height: 100px;
 
     .logo {
-        margin: 20px 0 10px 30px;
+        margin: 20px 0 10px 0;
         width: 400px;
 
         h1 {
@@ -31,7 +30,7 @@ body {
 
 .menu-items {
     display: flex;
-    margin: 10px 20px 10px 0;
+    margin: 10px 0 10px 0;
     height: 80px;
 
     ul {
@@ -64,27 +63,81 @@ body {
     font-size: x-large;
 }
 
+.info-message, .error-message {
+    font-family: 'Azeret Mono', monospace;
+    margin: 30px;
+    border: 3px solid #FFE700;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.info-message {
+    border: 3px solid #FFE700;
+}
+
+.error-message {
+    border: 3px solid red;
+}
+
 .search-form, .date-filter {
     display: flex;
     justify-content: flex-end;
     margin: 30px;
-    position: relative;
 
-    input {
-        font-family: 'Poppins', sans-serif;
-        width: 220px;
-        height: 30px;
-        border: none;
+    .date {
+        position: relative;
         border: solid 3px #FFE700;
-        outline: none;
-        padding: 5px 10px;
+        width: 200px;
         margin-right: 5px;
+        
+        input {
+            font-family: 'Poppins', sans-serif;
+            width: 85%;
+            height: 30px;
+            border: none;
+            outline: none;
+            padding: 5px 10px;
+        }
+
+        .btn1 {
+            position: absolute;
+            top: 0px;
+            right: 2px;
+        }
+
+        .btn2 {
+            position: absolute;
+            top: 0px;
+            right: 2px;
+        }
+    }
+
+    .search {
+        position: relative;
+        border: solid 3px #FFE700;
+        width: 200px;
+        margin-right: 5px;
+
+        input {
+            font-family: 'Poppins', sans-serif;
+            width: 85%;
+            height: 30px;
+            border: none;
+            outline: none;
+            padding: 5px 10px;
+        }
+
+        .btn3 {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
     }
 
     .btn {
         font-family: 'Azeret Mono', monospace;
-        width: 45px;
-        height: 45px;
+        width: 46px;
+        height: 46px;
         border: none;
         background-color: blue;
         color: white;
@@ -95,18 +148,6 @@ body {
             width: 25px;
             height: 25px;
         }
-    }
-
-    .btn1 {
-        position: absolute;
-        top: 3px;
-        right: 208px;
-    }
-
-    .btn2 {
-        position: absolute;
-        top: 3px;
-        right: 54px;
     }
 
     .clear-btn {
@@ -147,24 +188,21 @@ body {
     }
 
     ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        font-family: 'Azeret Mono', monospace;
+        font-family: 'Poppins', sans-serif;
         color: #3A403D;
-        font-weight: 600;
     }
     ::-moz-placeholder { /* Firefox 19+ */
-        font-family: 'Azeret Mono', monospace;
+        font-family: 'Poppins', sans-serif;
+        font-size: medium;
         color: #3A403D;
-        font-weight: 600;
     }
     :-ms-input-placeholder { /* IE 10+ */
-        font-family: 'Azeret Mono', monospace;
+        font-family: 'Poppins', sans-serif;
         color: #3A403D;
-        font-weight: 600;
     }
     :-moz-placeholder { /* Firefox 18- */
-        font-family: 'Azeret Mono', monospace;
+        font-family: 'Poppins', sans-serif;
         color: #3A403D;
-        font-weight: 600;
     }
 }
 
@@ -172,13 +210,13 @@ body {
     height: 46px;
 
     input {
-        width: 124px;
+        width: 144px;
     }
 
     button {
         font-family: 'Azeret Mono', monospace;
-        width: 45px;
-        height: 45px;
+        width: 46px;
+        height: 46px;
         border: none;
         background-color: blue;
         color: white;
@@ -201,7 +239,9 @@ body {
     margin: 30px 10px 50px 10px;
 
     table {
+        margin: 0 30px;
         border-collapse: collapse;
+
         tbody tr:hover {
             background: #FFE700;
         }
@@ -216,6 +256,158 @@ body {
             width: 25px;
             vertical-align: middle;
             margin: 5px 0;
+        }
+        span {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: 767px) { 
+    .search-form, .date-filter {
+        justify-content: center;
+
+        .search {
+            width: 90%;
+        }
+        .date {
+            width: 42%;
+
+            input {
+                width: 65%;
+            }
+
+            ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                font-size: 11px;
+            }
+            ::-moz-placeholder { /* Firefox 19+ */
+                font-size: 11px;
+            }
+            :-ms-input-placeholder { /* IE 10+ */
+                font-size: 11px;
+            }
+            :-moz-placeholder { /* Firefox 18- */
+                font-size: 11px;
+            }
+        }
+    }
+
+    .header {
+        .logo {
+            width: 300px;
+            font-size: calc(1em + 1vw);
+    
+            h1 {
+                width: 300px;
+            }
+        }
+    }
+
+    .wrapper {
+        table {
+            thead {
+                display: none;
+            }
+    
+            tr {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-bottom: 10px;
+                //background-color: #FFE700;
+                border: solid 3px blue;
+                width: 100%;
+            }
+    
+            // tbody tr:hover {
+            //     background: none;
+            //     border: solid 3px blue;
+            // }
+    
+            td {
+                padding: 0;
+                position: relative;
+                width: 100%;
+                text-align: end;
+                margin: 0 10px 10px 0;
+            }
+    
+            span {
+                display: flex;
+                color: black;
+                font-weight: bold;
+                font-family: 'Azeret Mono', monospace;      
+                padding: 5px 0 5px 10px;
+                position: absolute; 
+                top: 0;
+                left: 0; 
+                margin-right: 10px;
+            }
+    
+        }
+    }
+
+    .date-filter {
+        margin: 30px;
+        justify-content: center;
+    }
+
+    .search-form {
+        justify-content: center;
+    }
+
+    .header {
+        height: 200px;
+        flex-direction: column;
+    }
+
+    .menu-items {
+        height: 50px;
+        justify-content: center;
+        margin-top: 0;
+    }
+
+    .menu {
+        display: flex;
+        justify-self: center;
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            width: 100%;
+            padding-left: 0;
+        }
+    }
+}
+
+@media ( max-width: 585px ) {
+    .header {
+        height: 270px;
+    }
+
+    .menu {
+        ul {
+            margin-top: 0;
+        }
+    }
+
+    .search-form, .date-filter {
+        margin-top: 10px;
+    }
+
+    .wrapper {
+        margin-right: 0px;
+        margin-left: 0px;
+
+        table {
+            td {
+                width: 100%;
+                padding: 0;
+                text-align: center;
+                margin: 0 -1px -1px 0;
+                padding-top: 28px;
+            }
         }
     }
 }
